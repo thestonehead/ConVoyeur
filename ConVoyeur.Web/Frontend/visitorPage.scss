@@ -1,0 +1,115 @@
+﻿@import "~bootstrap/scss/bootstrap";
+
+.activites.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.activites.row > div[class*='col-'] {
+    display: flex;
+}
+
+.header {
+    min-height: 60px;
+    position: relative;
+    margin-bottom: 10px;
+
+    .nav-container {
+        position: absolute;
+        left:0;
+        right:0;
+    }
+
+    nav {
+        margin-left: 50px; /* Just so that there's no visible gray background behind profile pic */
+    }
+
+    @include media-breakpoint-down(sm) {
+        nav {
+            margin-left: 0px;
+        }
+    }
+
+    .visitor-data {
+        margin-left: -45px;
+        position: absolute;
+    }
+
+    @include media-breakpoint-down(sm) {
+        .visitor-data {
+            margin-left: -15px;
+        }
+    }
+
+
+    .visitor-data .pic {
+        border-radius: 50%;
+        height: 60px;
+        border: goldenrod 3px solid;
+        width: 60px;
+        background-color: gold;
+        z-index: 2;
+        position: absolute;
+    }
+
+    .visitor-data .nametag {
+        width: 270px;
+        border: goldenrod 3px solid;
+        height: 35px;
+        transform: skew(-30deg);
+        position: absolute;
+        top: 0px;
+        left: 32px;
+        background-color: gold;
+        z-index: 1;
+        padding-left: 50px;
+        padding-top: 2px;
+        font-size: large;
+    }
+
+    .visitor-data .undertag {
+        position: absolute;
+        transform: skew(-30deg);
+        border: goldenrod 2px solid;
+        background-color: gold;
+        z-index: 1;
+        width: 180px;
+        top: 30px;
+        left: 50px;
+        height: 30px;
+        padding-left: 30px;
+        padding-top: 2px;
+        font-size: small;
+    }
+
+    button.navbar-toggler {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+    // Example usage:
+    @include media-breakpoint-down(sm) {
+        .navbar-collapse ul.navbar-nav {
+            margin-top: 50px;
+        }
+    }
+
+
+    #navbarNav {
+        flex-direction: row-reverse;
+    }
+}
+
+.row.title {
+    background-color: orange;
+    text-align: center;
+}
+
+.fa.fa-star.checked {
+    color: gold;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+}

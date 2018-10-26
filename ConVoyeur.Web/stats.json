@@ -1,0 +1,23 @@
+{
+  "errors": [
+    "Entry module not found: SyntaxError: D:\\Projects\\GitHub\\ConVoyeur\\ConVoyeur.Web\\package.json (directory description file): SyntaxError: Unexpected token w in JSON at position 259"
+  ],
+  "warnings": [
+    "configuration\nThe 'mode' option has not been set, webpack will fallback to 'production' for this value. Set 'mode' option to 'development' or 'production' to enable defaults for each environment.\nYou can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/concepts/mode/"
+  ],
+  "version": "4.19.1",
+  "hash": "d5900a4a1c3d54682d56",
+  "time": 39,
+  "builtAt": 1538599804645,
+  "publicPath": "",
+  "outputPath": "D:\\Projects\\GitHub\\ConVoyeur\\ConVoyeur.Web",
+  "assetsByChunkName": {},
+  "assets": [],
+  "filteredAssets": 0,
+  "entrypoints": {},
+  "namedChunkGroups": {},
+  "chunks": [],
+  "modules": [],
+  "filteredModules": 0,
+  "children": []
+}

@@ -1,0 +1,36 @@
+﻿@model VisitorProfileViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+@section Styles {
+
+}
+@section Scripts {
+<script src="~/js/visitorPage.js"></script>
+}
+
+<div class="row activities">
+    <div class="col-md-4 col-sm-12">
+        @foreach (var activity in Model.User.Activities)
+        {
+            <div class="card">
+                <a class="card-header">
+                    <div class="activity-time">@activity.ActivatedDateTime</div>
+                    <div class="activity-name">@activity.Activity.Name</div>
+                    <div class="activity-location">@activity.Activity.Locations.First()</div>
+                </a>
+                <div class="card-body">
+                    Best lecture EVER!
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+

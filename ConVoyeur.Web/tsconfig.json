@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
+    "module": "es2015",
+    "baseUrl": "./Frontend/site",
+    "moduleResolution": "node",
+    "lib": ["es2015", "dom"]
+  },
+  "include": ["Frontend"],
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
+}
