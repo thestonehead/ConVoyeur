@@ -1,32 +1,49 @@
 ﻿@model VisitorProfileViewModel
 @{
     ViewData["Title"] = "Index";
+
+    string starChecked(int star, float grade)
+    {
+        return star <= grade ? "checked" : "";
+    }
 }
 @section Styles {
 
 }
 @section Scripts {
-<script src="~/js/visitorPage.js"></script>
 }
+
+
+<div class="row user-name">
+    <div class="text-center h3">@Model.Username</div>
+</div>
+<div class="row user-group">
+    <div class="text-center subtext">@Model.Group</div>
+</div>
+
+
 
 <div class="row activities">
     <div class="col-md-4 col-sm-12">
-        @foreach (var activity in Model.User.Activities)
+        @foreach (var activity in Model.AttendedActivities)
         {
             <div class="card">
                 <a class="card-header">
-                    <div class="activity-time">@activity.ActivatedDateTime</div>
-                    <div class="activity-name">@activity.Activity.Name</div>
-                    <div class="activity-location">@activity.Activity.Locations.First()</div>
+                    <div class="activity-time">@activity.ActivityActivated</div>
+                    <div class="activity-name">@activity.ActivityName</div>
+                    <div class="activity-location">@activity.LocationName</div>
                 </a>
-                <div class="card-body">
-                    Best lecture EVER!
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                </div>
+                @if (activity.Review != null)
+                {
+                    <div class="card-body">
+                        <span class="fa fa-star @starChecked(1, activity.Review.Grade)"></span>
+                        <span class="fa fa-star @starChecked(2, activity.Review.Grade)"></span>
+                        <span class="fa fa-star @starChecked(3, activity.Review.Grade)"></span>
+                        <span class="fa fa-star @starChecked(4, activity.Review.Grade)"></span>
+                        <span class="fa fa-star @starChecked(5, activity.Review.Grade)"></span>
+                        <div>@activity.Review.Review</div>
+                    </div>
+                }
             </div>
         }
     </div>

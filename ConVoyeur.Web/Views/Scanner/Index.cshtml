@@ -1,0 +1,60 @@
+﻿@model ScannerViewModel
+@{
+    ViewData["Title"] = "Scanner";
+}
+@section Styles {
+    <style>
+        .spinner {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            height: 110px;
+            width: 110px;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+
+}
+@section Scripts {
+    <script type="text/javascript">
+        var activities = @Json.Serialize(Model.Activities);
+        var locations = @Json.Serialize(Model.Locations);
+    </script>
+    <script src="~/js/scannerPage.js"></script>
+}
+
+<div>
+    <form>
+        <div class="form-group">
+            <label asp-for="Setup.ActivityId"></label>
+            <select asp-for="Setup.ActivityId" class="form-control">
+                @foreach (var option in Model.Activities)
+                {
+                    <option value="@option.ActivityId">@option.Name</option>
+                }
+            </select>
+            <span asp-validation-for="Setup.ActivityId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Setup.LocationId"></label>
+            <select asp-for="Setup.LocationId" class="form-control">
+                @foreach (var option in Model.Locations)
+                {
+                    <option value="@option.LocationId">@option.Name</option>
+                }
+            </select>
+            <span asp-validation-for="Setup.LocationId" class="text-danger"></span>
+        </div>
+    </form>
+</div>
+
+<video id="video" width="100%" height="400" style="border: 1px solid gray"></video>
+
+<partial name="_SpinnerPartial" />
+

@@ -40,3 +40,23 @@ function CheckScan(text : string) {
         })
 }
 
+
+/*
+async function GetActivities() {
+    var response = await fetch("/Scanner/GetAvailableActivities", { method: "GET" });
+    return response.json();
+}
+
+async function GetLocations(activityId:number) {
+    var response = await fetch("/Scanner/GetAvailableLocations?activityId=" + activityId, { method: "GET" });
+    return response.json();
+}
+*/
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector("#Setup_ActivityId").addEventListener("change", (event) => {
+        console.log(event);
+
+        console.log(locations);
+    });
+});

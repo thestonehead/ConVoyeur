@@ -5,20 +5,32 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ConVoyeur.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+using ConVoyeur.Data;
+using Microsoft.AspNetCore.Identity;
+using Activity = System.Diagnostics.Activity;
 
 namespace ConVoyeur.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly UserManager<ConUser> userManager;
+
+        public HomeController(UserManager<ConUser> userManager)
+        {
+            this.userManager = userManager;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult About()
+        [Authorize]
+        public async Task<IActionResult> About()
         {
             ViewData["Message"] = "Your application description page.";
-
+            var user = await GetCurrentUserAsync();
             return View();
         }
 
@@ -39,5 +51,8 @@ namespace ConVoyeur.Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        private Task<ConUser> GetCurrentUserAsync() => userManager.GetUserAsync(HttpContext.User);
+
     }
 }

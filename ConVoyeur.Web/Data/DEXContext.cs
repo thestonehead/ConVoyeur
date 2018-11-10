@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ConVoyeur.Web.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,8 @@ namespace ConVoyeur.Data
 {
     public class DEXContext : IdentityDbContext<ConUser, ConRole, int>
     {
+        private readonly AppSettings appSettings;
+
         public DbSet<Event> Events { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Activity> Activities { get; set; }
@@ -18,10 +22,22 @@ namespace ConVoyeur.Data
         public DbSet<ActivityEntry> ActivityEntries { get; set; }
         public DbSet<AvailabilityEntry> AvailabilityEntries { get; set; }
 
-        public DEXContext(DbContextOptions<DEXContext> options) : base(options)
-        {
-        }
 
+
+        public DEXContext(DbContextOptions<DEXContext> options, IOptions<AppSettings> appSettings) : base(options)
+        {
+            this.appSettings = appSettings.Value;
+        }
+        
+        /// <summary>
+        /// Returns  available activities at a certain time with an offset from settings
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public IQueryable<Activity> GetAvailableActivitiesAtTime(DateTime time)
+        {
+            return this.Activities.Where(t => t.Availability.Any(a => a.AvailabilityEntry.ActiveFrom.Add(-appSettings.ActivityAvailableOffset) > time && a.AvailabilityEntry.ActiveTo.Add(appSettings.ActivityAvailableOffset) < time));
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,6 +64,7 @@ namespace ConVoyeur.Data
             modelBuilder.Entity<ActivityEntry>().HasOne<Activity>(nameof(ActivityEntry.Activity)).WithMany(nameof(Activity.Visitors)).HasForeignKey(nameof(ActivityEntry.ActivityId));
             modelBuilder.Entity<ActivityEntry>().HasOne<ConUser>(nameof(ActivityEntry.Visitor)).WithMany(nameof(ConUser.Activities)).HasForeignKey(nameof(ActivityEntry.VisitorId));
             modelBuilder.Entity<ActivityEntry>().HasOne<ConUser>(nameof(ActivityEntry.ActivatedUser)).WithMany().HasForeignKey(nameof(ActivityEntry.ActivatedUserId));
+            modelBuilder.Entity<ActivityEntry>().HasOne<Location>(nameof(ActivityEntry.ActivatedLocation)).WithMany().IsRequired(false).HasForeignKey(nameof(ActivityEntry.ActivatedLocationId));
             modelBuilder.Entity<ActivityEntryReview>().HasOne<ActivityEntry>(nameof(ActivityEntryReview.ActivityEntry)).WithOne(nameof(ActivityEntry.Review)).HasForeignKey<ActivityEntryReview>(aer=>aer.ActivityEntryId).OnDelete(DeleteBehavior.Cascade);
 
             // Activity <-> Location

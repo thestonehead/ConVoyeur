@@ -20,6 +20,9 @@ namespace ConVoyeur.Data
         public DateTime ActivatedDateTime { get; set; }
         public int ActivatedUserId { get; set; }
         public ConUser ActivatedUser { get; set; }
+        public int? ActivatedLocationId { get; set; }
+        public Location ActivatedLocation { get; set; }
+
 
         public ActivityEntryReview Review { get; set; }
 

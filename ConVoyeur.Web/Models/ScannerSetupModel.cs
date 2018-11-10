@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 
 namespace ConVoyeur.Web.Models
 {
-    public class ScanningRequest
+    public class ScannerSetupModel
     {
+        public int ActivityId { get; set; }
+        public int LocationId { get; set; }
         public string ScannedText { get; set; }
+
     }
 }

@@ -15,11 +15,13 @@ namespace ConVoyeur.Data
         public string Name { get; set; }
 
 
-        public ICollection<ActivityLocation> Locations { get; set; }
-        public ICollection<ActivityAvailabilityEntry> Availability { get; set; }
-        public ICollection<ActivityEntry> Visitors { get; set; }
+        public virtual ICollection<ActivityLocation> Locations { get; set; } = new HashSet<ActivityLocation>();
+        public virtual ICollection<ActivityAvailabilityEntry> Availability { get; set; } = new HashSet<ActivityAvailabilityEntry>();
+        public virtual ICollection<ActivityEntry> Visitors { get; set; } = new HashSet<ActivityEntry>();
 
         public bool Active { get; set; }
 
+
+       
     }
 }

@@ -3,7 +3,7 @@
 module.exports = {
     entry: {
         scannerPage: './Frontend/scannerPage.ts',
-        visitorPage: './Frontend/visitorPage.ts'
+        main: './Frontend/main.ts'
     },
     module: {
         rules: [

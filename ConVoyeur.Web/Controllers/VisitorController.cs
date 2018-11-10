@@ -6,6 +6,7 @@ using ConVoyeur.Data;
 using ConVoyeur.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ConVoyeur.Web.Controllers
 {
@@ -27,18 +28,39 @@ namespace ConVoyeur.Web.Controllers
                 return BadRequest();
             }
 
-            var user = await context.Users.FindAsync(id);
+            var user = await context.Users
+                .Include(u=>u.Activities).ThenInclude(ae=>ae.Activity)
+                .Include(u => u.Activities).ThenInclude(ae => ae.Review)
+                .Include(u => u.Activities).ThenInclude(ae => ae.ActivatedLocation)
+                .FirstOrDefaultAsync(u=>u.Id == id);
             if (user == null)
             {
                 return NotFound();
             }
 
+
+
             var model = new VisitorProfileViewModel()
             {
-                User = user
+                Username = user.Name,
+                Group = "N/A",
+                AttendedActivities = user.Activities.Select(a => new ActivityEntryViewModel()
+                {
+                    ActivityId = a.ActivityId,
+                    ActivityName = a.Activity?.Name ?? "N/A",
+                    ActivityActivated = a.ActivatedDateTime,
+                    LocationName = a.ActivatedLocation?.Name ?? "N/A",
+                    Review = a.Review == null ? null : new ReviewViewModel()
+                    {
+                        User = a.Visitor.UserName,
+                        Grade = a.Review.Grade,
+                        Review = a.Review.Review
+                    }
+                })
             };
 
             return View(model);
         }
     }
+
 }

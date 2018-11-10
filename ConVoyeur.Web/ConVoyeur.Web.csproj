@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Frontend\main.ts" />
     <None Remove="Frontend\scannerPage.ts" />
-    <None Remove="Frontend\visitorPage.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +26,12 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="Frontend\scannerPage.ts" />
-    <TypeScriptCompile Include="Frontend\visitorPage.ts" />
+    <TypeScriptCompile Include="Frontend\main.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="Views\EditorTemplates\" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

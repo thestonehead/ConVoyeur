@@ -1,4 +1,4 @@
-﻿
+﻿@model ScannerViewModel
 @{
     ViewData["Title"] = "Scanner";
 }
@@ -16,16 +16,20 @@
         }
 
         .hide {
-            display:none;
+            display: none;
         }
     </style>
 
 }
 @section Scripts {
-    <script src="~/js/visitorPage.js"></script>
     <script src="~/js/scannerPage.js"></script>
 }
-    <video id="video" width="100%" height="400" style="border: 1px solid gray"></video>
 
-<partial  name="_SpinnerPartial" />
+<div>
+
+</div>
+
+<video id="video" width="100%" height="400" style="border: 1px solid gray"></video>
+
+<partial name="_SpinnerPartial" />
 

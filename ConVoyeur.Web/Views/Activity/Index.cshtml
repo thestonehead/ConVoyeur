@@ -1,0 +1,156 @@
+﻿@model ActivityViewModel
+@{
+    ViewData["Title"] = "Activity";
+    Layout = "_Layout";
+
+
+    string starChecked(int star, float grade)
+    {
+        return star <= grade ? "checked" : "";
+    }
+
+    var reviewInput = new PostReviewInput();
+}
+
+<div class="row activity-name">
+    <div class="text-center h3">@Model.ActivityName</div>
+</div>
+<div class="row activity-details subtext">
+    @Model.ActivityDetails
+</div>
+@if (Model.UserLoggedIn)
+{
+    if (Model.UsersReview != null)
+    {
+        <div class="row user-review">
+            @*@Model.UsersReview.Review*@
+            Your review has been posted.
+        </div>
+    }
+    else
+    {
+        @await Html.PartialAsync("PostReview", new PostReviewInput(Model.ActivityId));
+    }
+    <hr />
+}
+<div class="row activities">
+    @if (!Model.Reviews.Any())
+    {
+        if (Model.UsersReview != null)
+        {
+            <div>There are no reviews from other users available yet.</div>
+        }
+        else
+        {
+            <div>There are no reviews available yet. Be the first to post one!</div>
+        }
+    }
+    else
+    {
+        foreach (var review in Model.Reviews)
+        {
+            <div class="col-md-4 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        @review.User
+                        <span class="fa fa-star @starChecked(1, review.Grade)"></span>
+                        <span class="fa fa-star @starChecked(2, review.Grade)"></span>
+                        <span class="fa fa-star @starChecked(3, review.Grade)"></span>
+                        <span class="fa fa-star @starChecked(4, review.Grade)"></span>
+                        <span class="fa fa-star @starChecked(5, review.Grade)"></span>
+                    </div>
+                    <div class="card-body">
+                        @review.Review
+                    </div>
+                </div>
+
+            </div>
+        }
+    }
+</div>
+
+
+@section Scripts {
+    <script language="javascript">
+        $(document).ready(function () {
+
+            /* 1. Visualizing things on Hover - See next part for action on click */
+            $('#stars li').on('mouseover', function () {
+                var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+
+                // Now highlight all the stars that's not after the current hovered star
+                $(this).parent().children('li.star').each(function (e) {
+                    if (e < onStar) {
+                        $(this).addClass('hover');
+                    }
+                    else {
+                        $(this).removeClass('hover');
+                    }
+                });
+
+            }).on('mouseout', function () {
+                $(this).parent().children('li.star').each(function (e) {
+                    $(this).removeClass('hover');
+                });
+            });
+
+
+            /* 2. Action to perform on click */
+            $('#stars li').on('click', function () {
+                var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+                var stars = $(this).parent().children('li.star');
+
+                for (i = 0; i < stars.length; i++) {
+                    $(stars[i]).removeClass('selected');
+                }
+
+                for (i = 0; i < onStar; i++) {
+                    $(stars[i]).addClass('selected');
+                }
+
+                //document.getElementById("Grade").value = onStar;
+                document.getElementsByName("Grade")[0].value = onStar;
+            });
+
+
+        });
+
+
+        function responseMessage(msg) {
+            $('.success-box').fadeIn(200);
+            $('.success-box div.text-message').html("<span>" + msg + "</span>");
+        }
+    </script>
+}
+
+@section Styles {
+    <style>
+        /* Rating Star Widgets Style */
+        .rating-stars ul {
+            list-style-type: none;
+            padding: 0;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+        }
+
+            .rating-stars ul > li.star {
+                display: inline-block;
+            }
+
+                /* Idle State of the stars */
+                .rating-stars ul > li.star > i.fa {
+                    /* font-size: 2.5em; /* Change the size of the stars */
+                    color: #ccc; /* Color on idle state */
+                }
+
+                /* Hover state of the stars */
+                .rating-stars ul > li.star.hover > i.fa {
+                    color: #FFCC36;
+                }
+
+                /* Selected state of the stars */
+                .rating-stars ul > li.star.selected > i.fa {
+                    color: #FF912C;
+                }
+    </style>
+}
